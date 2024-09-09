@@ -72,3 +72,42 @@ List<Dog> dogs = new List<Dog>()
         WalkerId = 7
     }
 };
+
+List<Walker> walkers = new List<Walker>()
+{
+    new Walker()
+    {
+        Id = 1,
+        Name = "Isabelle"
+    },
+    new Walker()
+    {
+        Id = 2,
+        Name = "Renee"
+    },
+    new Walker()
+    {
+        Id = 3,
+        Name = "Ethan"
+    },
+    new Walker()
+    {
+        Id = 4,
+        Name = "Kyo"
+    },
+    new Walker()
+    {
+        Id = 5,
+        Name = "Rob"
+    },
+    new Walker()
+    {
+        Id = 6,
+        Name = "Jord"
+    },
+    new Walker()
+    {
+        Id = 7,
+        Name = "Chelsea"
+    }
+};
