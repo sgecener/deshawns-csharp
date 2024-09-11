@@ -111,3 +111,26 @@ List<Walker> walkers = new List<Walker>()
         Name = "Chelsea"
     }
 };
+List<City> cities = new List<City>()
+{
+    new City()
+    {
+        Id = 1,
+        Name = "Cordova"
+    },
+    new City()
+    {
+        Id = 2,
+        Name = "Nashville"
+    },
+    new City()
+    {
+        Id = 3,
+        Name = "Chattanooga"
+    },
+    new City()
+    {
+        Id = 4,
+        Name = "Memphis"
+    }
+};
