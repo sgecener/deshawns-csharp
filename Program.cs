@@ -254,3 +254,30 @@ var CreateDogDTO = (Dog dog) =>
 
     return dogDTO;
 };
+
+var CreateWalkerDTO = (Walker walker) =>
+{
+    List<CityWalker> foundCityWalkers = cityWalkers.Where(cityWalker => cityWalker.WalkerId == walker.Id).ToList();
+    List<Dog> foundDogs = dogs.Where(dog => dog.WalkerId == walker.Id).ToList();
+
+    WalkerDTO walkerDTO = new WalkerDTO()
+    {
+        Id = walker.Id,
+        Name = walker.Name,
+        CityWalkers = foundCityWalkers.Select(cityWalker => new CityWalkerDTO()
+        {
+            Id = cityWalker.Id,
+            CityId = cityWalker.CityId,
+            WalkerId = cityWalker.WalkerId
+        }).ToList(),
+        Dogs = foundDogs.Select(dog => new DogDTO()
+        {
+            Id = dog.Id,
+            Name = dog.Name,
+            CityId = dog.CityId,
+            WalkerId = dog.WalkerId
+        }).ToList()
+    };
+
+    return walkerDTO;
+};
