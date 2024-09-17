@@ -203,3 +203,54 @@ List<CityWalker> cityWalkers = new List<CityWalker>()
         WalkerId = 8
     }
 };
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseHttpsRedirection();
+
+var CreateDogDTO = (Dog dog) =>
+{
+    City foundCity = cities.First(city => city.Id == dog.CityId);
+    Walker foundWalker = null;
+    if (dog.WalkerId != null)
+    {
+        foundWalker = walkers.FirstOrDefault(walker => walker.Id == dog.WalkerId);
+    }
+    
+    DogDTO dogDTO = new DogDTO()
+    {
+        Id = dog.Id,
+        Name = dog.Name,
+        WalkerId = dog.WalkerId,
+        CityId = dog.CityId,
+        City = new CityDTO()
+        {
+            Id = foundCity.Id,
+            Name = foundCity.Name
+        }
+    };
+    if (foundWalker != null)
+    {
+        dogDTO.Walker = new WalkerDTO()
+        {
+            Id = foundWalker.Id,
+            Name = foundWalker.Name
+        };
+    }
+
+    return dogDTO;
+};
