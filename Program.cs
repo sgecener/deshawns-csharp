@@ -298,3 +298,16 @@ app.MapGet("api/dogs", () =>
 
     return dogDTOs;
 });
+
+app.MapGet("api/dogs/{id}", (int id) =>
+{
+    Dog dog = dogs.FirstOrDefault(dog => dog.Id == id);
+    if (dog == null)
+    {
+        return Results.NotFound();
+    }
+    
+    DogDTO dogDTO = CreateDogDTO(dog);
+
+    return Results.Ok(dogDTO);
+});
