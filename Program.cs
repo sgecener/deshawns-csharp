@@ -325,3 +325,25 @@ app.MapDelete("api/dogs/{id}", (int id) =>
 
     return Results.Ok(dogDTO);
 });
+
+app.MapGet("api/dogs/assign/{walkerId}", (int walkerId) =>
+{
+    List<DogDTO> dogDTOs = new List<DogDTO>();
+    List<CityWalker> servicedCities = cityWalkers.Where(cityWalker => cityWalker.WalkerId == walkerId).ToList();
+
+    foreach (Dog dog in dogs)
+    {
+        if (walkerId != dog.WalkerId & servicedCities.FirstOrDefault(cityWalker => cityWalker.CityId == dog.CityId) != null)
+        {
+            dogDTOs.Add(new DogDTO
+            {
+                Id = dog.Id,
+                Name = dog.Name,
+                WalkerId = dog.WalkerId,
+                CityId = dog.CityId
+            });
+        }
+    }
+
+    return dogDTOs;
+});
