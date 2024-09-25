@@ -366,3 +366,29 @@ app.MapPost("api/dogs", (DogAddDTO dogAdd) =>
     
     return Results.Created($"/api/dogs/{newDog.Id}", createdDog);
 });
+app.MapPatch("api/dogs/assign", (DogAssignDTO dogToAssign) =>
+{
+    Dog foundDog = dogs.FirstOrDefault(dog => dog.Id == dogToAssign.Id);
+    if (foundDog == null)
+    {
+        return Results.BadRequest();
+    }
+
+    Walker foundWalker = walkers.FirstOrDefault(walker => walker.Id == dogToAssign.WalkerId);
+    if (foundWalker == null)
+    {
+        return Results.BadRequest();
+    }
+
+    CityWalker foundCityWalker = cityWalkers.FirstOrDefault(cityWalker => cityWalker.CityId == dogToAssign.CityId & cityWalker.WalkerId == dogToAssign.WalkerId);
+    if (foundCityWalker == null)
+    {
+        return Results.BadRequest();
+    }
+
+    foundDog.WalkerId = dogToAssign.WalkerId;
+
+    DogDTO dogDTO = CreateDogDTO(foundDog);
+
+    return Results.Created($"api/dogs/{dogDTO.Id}", dogDTO);
+});
