@@ -347,3 +347,22 @@ app.MapGet("api/dogs/assign/{walkerId}", (int walkerId) =>
 
     return dogDTOs;
 });
+app.MapPost("api/dogs", (DogAddDTO dogAdd) =>
+{
+    if (dogAdd.Name == "" | dogAdd.Name == null | dogAdd.CityId != dogs.FirstOrDefault(dog => dog.CityId == dogAdd.CityId)?.CityId)
+    {
+        return Results.BadRequest();
+    }
+
+    Dog newDog = new Dog()
+    {
+        Id = dogs.Max(dog => dog.Id) + 1,
+        Name = dogAdd.Name,
+        CityId = dogAdd.CityId
+    };
+
+    dogs.Add(newDog);
+    DogDTO createdDog = CreateDogDTO(newDog);
+    
+    return Results.Created($"/api/dogs/{newDog.Id}", createdDog);
+});
