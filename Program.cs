@@ -430,3 +430,29 @@ app.MapPost("api/cities", (CityAddDTO city) =>
 
     return Results.Created($"api/cities/{newCity.Id}", createdCity);
 });
+
+app.MapGet("api/walkers", () =>
+{
+    List<WalkerDTO> walkerDTOs = new List<WalkerDTO>();
+
+    foreach (Walker walker in walkers)
+    {
+        List<CityWalker> foundCityWalkers = cityWalkers.Where(cityWalker => cityWalker.WalkerId == walker.Id).ToList();
+
+        WalkerDTO newWalkerDTO = new WalkerDTO()
+        {
+            Id = walker.Id,
+            Name = walker.Name,
+            CityWalkers = foundCityWalkers.Select(cityWalker => new CityWalkerDTO()
+            {
+                Id = cityWalker.Id,
+                CityId = cityWalker.CityId,
+                WalkerId = cityWalker.WalkerId
+            }).ToList(),
+        };
+        
+        walkerDTOs.Add(newWalkerDTO);
+    }
+
+    return walkerDTOs;
+});
