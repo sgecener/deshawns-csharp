@@ -456,3 +456,18 @@ app.MapGet("api/walkers", () =>
 
     return walkerDTOs;
 });
+
+
+app.MapGet("api/walkers/{id}", (int id) => 
+{
+    Walker foundWalker = walkers.FirstOrDefault(walker => walker.Id == id);
+    if (foundWalker == null)
+    {
+        return Results.NotFound();
+    }
+
+    WalkerDTO walkerDTO = CreateWalkerDTO(foundWalker);
+
+    return Results.Ok(walkerDTO);
+});
+
