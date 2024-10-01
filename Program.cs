@@ -470,4 +470,51 @@ app.MapGet("api/walkers/{id}", (int id) =>
 
     return Results.Ok(walkerDTO);
 });
+app.MapPut("api/walkers", (WalkerUpdateDTO walkerDTO) =>
+{
+    if (String.IsNullOrWhiteSpace(walkerDTO.Name) | walkerDTO.CityWalkers == null)
+    {
+        return Results.BadRequest();
+    }
+    
+    Walker foundWalker = walkers.FirstOrDefault(walker => walker.Id == walkerDTO.Id);
+    if (foundWalker == null)
+    {
+        return Results.BadRequest();
+    }
+
+    // Removes all old City Walkers associated with found Walker
+    List<CityWalker> oldCityWalkers = cityWalkers.Where(cityWalker => cityWalker.WalkerId == foundWalker.Id).ToList();
+    foreach (CityWalker cityWalker in oldCityWalkers)
+    {
+        cityWalkers.Remove(cityWalker);
+    }
+
+    // Creates new City Walkers based received WalkerUpdateDTO
+    foreach (CityWalkerAddDTO cityWalkerAddDTO in walkerDTO.CityWalkers)
+    {
+        cityWalkers.Add(new CityWalker()
+        {
+            Id = cityWalkers.Max(cityWalker => cityWalker.Id),
+            CityId = cityWalkerAddDTO.CityId,
+            WalkerId = cityWalkerAddDTO.WalkerId
+        });
+    }
+
+    // Updates Dogs that can no longer be walked by the Walker
+    List<Dog> foundDogs = dogs.Where(dog => dog.WalkerId == foundWalker.Id).ToList();
+    foreach (Dog dog in foundDogs)
+    {
+        if (dog.CityId != cityWalkers.Find(cityWalker => cityWalker.WalkerId == foundWalker.Id).CityId)
+        {
+            dog.WalkerId = null;
+        }
+    }
+
+    foundWalker.Name = walkerDTO.Name;
+
+    WalkerDTO updatedWalker = CreateWalkerDTO(foundWalker);
+
+    return Results.Created($"api/walkers/{updatedWalker.Id}", updatedWalker);
+});
 
