@@ -517,4 +517,28 @@ app.MapPut("api/walkers", (WalkerUpdateDTO walkerDTO) =>
 
     return Results.Created($"api/walkers/{updatedWalker.Id}", updatedWalker);
 });
+app.MapDelete("api/walkers/{id}", (int id) =>
+{
+    Walker foundWalker = walkers.FirstOrDefault(walker => walker.Id == id);
+    if (foundWalker == null)
+    {
+        return Results.NotFound();
+    }
+
+    WalkerDTO deletedWalker = CreateWalkerDTO(foundWalker);
+    walkers.Remove(foundWalker);
+
+    cityWalkers.RemoveAll(cityWalker => cityWalker.WalkerId == id);
+    dogs.Select(dog => 
+    {
+        if (dog.WalkerId == id)
+        {
+            dog.WalkerId = null;
+        }
+
+        return dog;
+    }).ToList();
+
+    return Results.Ok(deletedWalker);
+});
 
