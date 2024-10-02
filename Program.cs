@@ -6,7 +6,7 @@ List<Dog> dogs = new List<Dog>()
     new Dog()
     {
         Id = 1,
-        Name = "Baxter",
+        Name = "Fancy",
         CityId = 1,
         WalkerId = 1
     },
@@ -20,54 +20,54 @@ List<Dog> dogs = new List<Dog>()
     new Dog()
     {
         Id = 3,
-        Name = "Charlie",
+        Name = "Pillow",
         CityId = 3,
         WalkerId = 2
     },
     new Dog()
     {
         Id = 4,
-        Name = "Bella",
+        Name = "Radar",
         CityId = 4,
         WalkerId = 3
     },
     new Dog()
     {
         Id = 5,
-        Name = "Max",
+        Name = "Jimmy",
         CityId = 1,
         WalkerId = 4
     },
     new Dog()
     {
         Id = 6,
-        Name = "Daisy",
+        Name = "Logar",
         CityId = 2
     },
     new Dog()
     {
         Id = 7,
-        Name = "Oliver",
+        Name = "Baby",
         CityId = 3
     },
     new Dog()
     {
         Id = 8,
-        Name = "Lucy",
+        Name = "Tikka",
         CityId = 4,
         WalkerId = 5
     },
     new Dog()
     {
         Id = 9,
-        Name = "Cooper",
+        Name = "Monkey",
         CityId = 1,
         WalkerId = 6
     },
     new Dog()
     {
         Id = 10,
-        Name = "Molly",
+        Name = "Bill",
         CityId = 2,
         WalkerId = 7
     }
@@ -116,7 +116,7 @@ List<City> cities = new List<City>()
     new City()
     {
         Id = 1,
-        Name = "Cordova"
+        Name = "Chicago"
     },
     new City()
     {
@@ -126,12 +126,12 @@ List<City> cities = new List<City>()
     new City()
     {
         Id = 3,
-        Name = "Chattanooga"
+        Name = "DC"
     },
     new City()
     {
         Id = 4,
-        Name = "Memphis"
+        Name = "New York"
     }
 };
 List<CityWalker> cityWalkers = new List<CityWalker>()
