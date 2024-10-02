@@ -495,7 +495,7 @@ app.MapPut("api/walkers", (WalkerUpdateDTO walkerDTO) =>
     {
         cityWalkers.Add(new CityWalker()
         {
-            Id = cityWalkers.Max(cityWalker => cityWalker.Id),
+            Id = cityWalkers.Max(cityWalker => cityWalker.Id) + 1,
             CityId = cityWalkerAddDTO.CityId,
             WalkerId = cityWalkerAddDTO.WalkerId
         });
